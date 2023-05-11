@@ -5,13 +5,19 @@ import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 from scipy.signal import find_peaks
+import os
+
+
+
+def parser(filename):
+    os.system(filename)
+    
 
 def plot():
     df1= pd.read_table('data/RP_1_0001-trace.dat', sep='\s+')
     df1.columns=['Distance','dB']
     indices = find_peaks(df1['dB'],height=20)[0]
     print(indices)
-
 
     # Plotting the dataframe
     fig = go.Figure()
