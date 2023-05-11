@@ -8,50 +8,11 @@ import numpy as np
 import pandas as pd
 from scipy.signal import find_peaks
 from dash.dependencies import Input, Output
+from plotter import plot
 
 app = Dash(__name__)
 
-df1= pd.read_table('data/RP_1_0001-trace.dat', sep='\s+')
-df1.columns=['Distance','dB']
-indices = find_peaks(df1['dB'],height=20)[0]
-print(indices)
 
-
-# Plotting the dataframe
-fig = go.Figure()
-fig.add_trace(go.Line(
-    x=df1['Distance'],
-    y=df1['dB'],   
-    name='Loss'
-   
-    # mode='lines+markers',
-))
-
-# Plotting the Peaks
-names=['ERNET','SETS','']
-fig.add_trace(go.Scatter(
-    x=[df1['Distance'][i] for i in indices if i!=''],
-    y=[df1['dB'][j] for j in indices if j!=''],
-    text=['ERNET','SETS','GHOST'],
-    textposition="top center",
-    mode='markers+text',
-    marker=dict(
-        size=8,
-        color='red',
-        symbol='cross'
-    ),
-    name='Peaks'
-))
-
-# Updating Style
-fig.update_layout(
-    title={'text':"OTDR Trace ",'font_size':34},
-    xaxis_title="Distance (km)",
-    yaxis_title="dB",
-    font_family="Montserrat Semibold",
-    font_color="black"   
-)
-fig.update_traces(line_color='#1c1480')
 colors = {
     'background': '#ffffff',
     'text': '#000000'
@@ -73,7 +34,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         display_format="DD MM YYYY",
         min_date_allowed=date(2023,1,1),
         max_date_allowed=date.today(),
-        initial_visible_month=date.today().month,
+        # initial_visible_month=date.today().month,
         date=date.today(),
         style={
         'align':'center'
@@ -84,7 +45,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     ]),
     dcc.Graph(
         id='Graph1',
-        figure=fig
+        figure=plot()
     )
     
 ])
@@ -101,4 +62,4 @@ def update_output(date_value):
         return string_prefix + date_string
 
 if __name__ == '__main__':
-    app.run_server(debug=False)
+    app.run_server(debug=True)
