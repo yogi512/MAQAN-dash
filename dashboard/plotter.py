@@ -9,12 +9,15 @@ import os
 
 
 
-def parser(filename):
-    os.system(filename)
+def parser(date_string):
+    os.chdir('./data')
+    filename= date_string+'.sor'
+    os.system('pyOTDR {}'.format(filename))
+    os.chdir('..')
     
 
-def plot():
-    df1= pd.read_table('data/RP_1_0001-trace.dat', sep='\s+')
+def plot(filename):
+    df1= pd.read_table(filename, sep='\s+')
     df1.columns=['Distance','dB']
     indices = find_peaks(df1['dB'],height=20)[0]
     print(indices)

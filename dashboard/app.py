@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from scipy.signal import find_peaks
 from dash.dependencies import Input, Output
-from plotter import plot
+from plotter import plot,parser
 
 app = Dash(__name__)
 
@@ -40,26 +40,34 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
         'align':'center'
     },
     ),
-    html.Div(id='datePicker')
+    # html.Div(id='datePicker')
     
     ]),
     dcc.Graph(
         id='Graph1',
-        figure=plot()
+        figure=plot('data/110523-trace.dat')
     )
     
 ])
 
 
 @app.callback(
-    Output('datePicker', 'children'),
+    # Output('datePicker', 'children'),
+    Output('Graph1','figure'),
     Input('selectedDate', 'date'))
 def update_output(date_value):
-    string_prefix = 'You have selected: '
     if date_value is not None:
         date_object = date.fromisoformat(date_value)
-        date_string = date_object.strftime('%d %B %Y')
-        return string_prefix + date_string
+        date_string = date_object.strftime('%d%m%y')
+        if('data/'+date_string+'-trace.sor'):
+            pass
+        parser(date_string)
+        fig=plot('data/'+date_string+'-trace.dat')
+        
+        return fig
+    
+
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
