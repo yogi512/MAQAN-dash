@@ -1,0 +1,5 @@
+e2a - Ernet to ARC 
+e2b - Ernet to BEL
+e2i - Ernet to IIT M 
+e2n - Ernet to NKN
+e2s - Ernet to SETS
