@@ -63,7 +63,11 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     ]),
     # dash_table.DataTable(df.to_dict('records'), [{"name": i, "id": i} for i in df.columns],id='Table1'),
     # dash_table.DataTable(dff.to_dict('records'), [{"name": i, "id": i} for i in df.columns],id='Table2'),
-    # dash_table.DataTable(id='Table1',data=df.to_dict('records')), 
+    html.H2(children='\nSummary'),
+    dash_table.DataTable(id='Table2',data=dff.to_dict('records')), 
+    html.H2(children='Trace Data'),         
+    dash_table.DataTable(id='Table1',data=df.to_dict('records')),
+    html.H2(children='Trace Plot'),
     
     dcc.Graph(
         id='Graph1',
@@ -77,8 +81,8 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
 @app.callback(
     Output('datePicker', 'children'),
     Output('Graph1','figure'),
-    # Output('Table1','data'),
-    # Output('Table2','data'),
+    Output('Table1','data'),
+    Output('Table2','data'),
     Input('selectedDate', 'date'))
 
 def update_output(date_value):
@@ -98,7 +102,7 @@ def update_output(date_value):
         
         df,dff=table('data/'+date_string+'-dump.json')
 
-        return date_display,fig
+        return date_display,fig,df.to_dict('records'),dff.to_dict('records')
     
 
 

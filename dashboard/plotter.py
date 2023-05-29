@@ -43,7 +43,7 @@ def table(filename):
      'Range':data['FxdParams']['range'],
      'Resolution':data['FxdParams']['resolution']}
     
-    dff = pd.DataFrame.from_dict(out,orient='index')
+    dff = pd.DataFrame.from_dict(out,orient='index',columns=['Value'])
     return df,dff
 
 def plot(filename):
@@ -80,7 +80,7 @@ def plot(filename):
 
     # Updating Style
     fig.update_layout(
-        title={'text':"OTDR Trace ",'font_size':24},
+        # title={'text':"OTDR Trace ",'font_size':24},
         xaxis_title="Distance (km)",
         yaxis_title="dB",
         font_family="Montserrat Semibold",

@@ -8,7 +8,14 @@
 h1{
     font-family: "Montserrat",sans-serif;
     font-weight: 900;
+
 }
+h2{
+    font-family: "Montserrat",sans-serif;
+    font-weight: 600;
+    align-items: center;
+}
+
 
 div{
     font-family: "Montserrat",sans-serif;
