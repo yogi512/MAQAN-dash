@@ -14,7 +14,7 @@ div{
     font-family: "Montserrat",sans-serif;
     font-weight: 500;
 }
-#datePicker{
+#datePicker,#selectedDate{
     align-items: center;
     font-family: "Montserrat",sans-serif;
     font-weight: 500;

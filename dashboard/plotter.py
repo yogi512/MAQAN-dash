@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 from scipy.signal import find_peaks
 import os
+import json
 
 
 
@@ -14,7 +15,36 @@ def parser(date_string):
     filename= date_string+'.sor'
     os.system('pyOTDR {}'.format(filename))
     os.chdir('..')
+
+def table(filename):
+    f = open(filename)
+    data = json.load(f)
+    l=[]
+    for i in range(1,100):
+        try:
+            l.append((data['KeyEvents']['event {}'.format(i)]['distance'],
+                    data['KeyEvents']['event {}'.format(i)]['refl loss'],
+                    data['KeyEvents']['event {}'.format(i)]['splice loss'],
+                    data['KeyEvents']['event {}'.format(i)]['peak'],
+                    data['KeyEvents']['event {}'.format(i)]['end of curr'],
+                    data['KeyEvents']['event {}'.format(i)]['end of prev'],
+                    data['KeyEvents']['event {}'.format(i)]['slope'],
+                    data['KeyEvents']['event {}'.format(i)]['start of curr'],
+                    data['KeyEvents']['event {}'.format(i)]['start of next'],
+                    data['KeyEvents']['event {}'.format(i)]['type']))
+        except:
+            break
+    df = pd.DataFrame(l, columns =['Distance','ReflectionLoss','SpliceLoss','Peak','EndOfCurr','EndOfPrev','Slope','StartOfCurr','StartOfNext','Type'])
+    df = df.drop(['EndOfCurr','EndOfPrev','StartOfCurr','StartOfNext','Peak','Slope','Type'],axis=1)
     
+    out={'Date/time':data['FxdParams']['date/time'][0:19],
+     'Wavelength':data['FxdParams']['wavelength'],
+     'Pulse width':data['FxdParams']['pulse width'],
+     'Range':data['FxdParams']['range'],
+     'Resolution':data['FxdParams']['resolution']}
+    
+    dff = pd.DataFrame.from_dict(out,orient='index')
+    return df,dff
 
 def plot(filename):
     df1= pd.read_table(filename, sep='\s+')
