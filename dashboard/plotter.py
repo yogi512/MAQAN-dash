@@ -87,4 +87,5 @@ def plot(filename):
         font_color="black"   
     )
     fig.update_traces(line_color='#1c1480')
+    # fig.update_traces(line_color='#d14a41')
     return fig

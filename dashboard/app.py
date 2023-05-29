@@ -26,20 +26,17 @@ print(latest_file_name)
 
 colors = {
     'background': '#ffffff',
-    'text': '#000000'
+    'text': '#ffffff'
 }
 
 # Dashboard Layout 
 df,dff=table(latest_file_name[1:]+'-dump.json')
 app.layout = html.Div(style={'backgroundColor': colors['background']}, children=[
-    html.H1(
-        children='MAQAN DASHBOARD',
-        style={
-            'textAlign': 'center',
-            'color': colors['text'],
-            'font_family':'Montserrat Semibold'
-        }
-    ),
+    html.Div(style={'backgroundColor': '#1d1480','color': colors['text'],'height':'150px'},
+    children=[
+    html.H1(children='METROPOLITAN QUANTUM ACCESS NETWORK'),
+    html.H2('OTDR Dashboard',style={'color': colors['text'],'textAlign': 'center','font_family':'Montserrat'})
+    ]),
     
     html.Div([
     dcc.DatePickerSingle(
