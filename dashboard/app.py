@@ -40,11 +40,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
             'font_family':'Montserrat Semibold'
         }
     ),
-    # dbc.Container([
-    # dbc.Label('Summary'),
-    # dash_table.DataTable(df.to_dict('records'),[{"name": i, "id": i} for i in df.columns], id='Table1'),
-    # dbc.Alert(id='Table1')
-    # ]),
+    
     html.Div([
     dcc.DatePickerSingle(
         id='selectedDate',
@@ -61,8 +57,7 @@ app.layout = html.Div(style={'backgroundColor': colors['background']}, children=
     html.Div(children='no data for the given date',id='datePicker')
         
     ]),
-    # dash_table.DataTable(df.to_dict('records'), [{"name": i, "id": i} for i in df.columns],id='Table1'),
-    # dash_table.DataTable(dff.to_dict('records'), [{"name": i, "id": i} for i in df.columns],id='Table2'),
+    
     html.H2(children='\nSummary'),
     dash_table.DataTable(id='Table2',data=dff.to_dict('records')), 
     html.H2(children='Trace Data'),         
@@ -90,6 +85,7 @@ def update_output(date_value):
         print('Input recieved')
         date_object = date.fromisoformat(date_value)
         date_display = date_object.strftime('%d/%m/%y')
+        date_out='The data for the date '+date_display+' is displayed below'
         date_string = date_object.strftime('%d%m%y')
         if('data/'+date_string+'-trace.dat'):
             pass
@@ -102,7 +98,7 @@ def update_output(date_value):
         
         df,dff=table('data/'+date_string+'-dump.json')
 
-        return date_display,fig,df.to_dict('records'),dff.to_dict('records')
+        return date_out,fig,df.to_dict('records'),dff.to_dict('records')
     
 
 
